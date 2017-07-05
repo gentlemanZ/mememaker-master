@@ -3,7 +3,7 @@
     package="com.teamtreehouse.mememaker" >
 
 
-
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <application
         android:name=".MemeMakerApplication"
         android:allowBackup="true"

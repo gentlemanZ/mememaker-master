@@ -21,7 +21,7 @@ import java.io.OutputStream;
 public class FileUtilities {
 
     public static void saveAssetImage(Context context, String assetName) {
-        File fileDirectory = context.getFilesDir();
+        File fileDirectory = getFileDirectory(context);
         File fileToWrite = new File(fileDirectory,assetName);
 
         AssetManager assetManager = context.getAssets();
@@ -38,12 +38,54 @@ public class FileUtilities {
 
     }
 
+    public static File getFileDirectory(Context context){
+        String storageType = StorageType.PRIVATE_EXTERNAL;
+        if (storageType.equals(StorageType.INTERNAL)){
+            return context.getFilesDir();
+        }else{
+            if (isExternalStorageStorageAvailable()){
+                if (storageType.equals(StorageType.PRIVATE_EXTERNAL)){
+                    return context.getExternalFilesDir(null);
+                }else{
+                    return Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+                }
+            }else{
+                return context.getFilesDir();
+            }
+        }
+
+
+    }
+
+    public static boolean isExternalStorageStorageAvailable(){
+        String state = Environment.getExternalStorageState();
+        if (Environment.MEDIA_MOUNTED.equals(state)){
+            return true;
+        }
+        return false;
+    }
     private static void copyFile(InputStream in, OutputStream out) throws IOException {
         byte[] buffer = new byte[1024];
         int read;
         while((read = in.read(buffer)) != -1) {
             out.write(buffer, 0, read);
         }
+    }
+
+    public static File[] listFiles(Context context){
+        File fileDirecotry = getFileDirectory(context);
+        File [] filteredFiles = fileDirecotry.listFiles(new FileFilter() {
+            @Override
+            public boolean accept(File file) {
+                if (file.getAbsolutePath().contains(".jpg")){
+                    return true;
+                }else{
+                    return false;
+                }
+
+            }
+        });
+        return filteredFiles;
     }
 
     public static Uri saveImageForSharing(Context context, Bitmap bitmap,  String assetName) {
@@ -65,7 +107,7 @@ public class FileUtilities {
 
 
     public static void saveImage(Context context, Bitmap bitmap, String name) {
-        File fileDirectory = context.getFilesDir();
+        File fileDirectory = getFileDirectory(context);
         File fileToWrite = new File(fileDirectory, name);
 
         try {
