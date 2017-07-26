@@ -14,9 +14,12 @@ import java.util.ArrayList;
 public class MemeDataSource {
 
     private Context mContext;
-
+    private MemeSQLiteHelper mMemeSqliteHelper;
     public MemeDataSource(Context context) {
         mContext = context;
+        mMemeSqliteHelper = new MemeSQLiteHelper(context);
+        SQLiteDatabase database = mMemeSqliteHelper.getReadableDatabase();
+        database.close();
     }
 }
 
