@@ -175,8 +175,13 @@ public class CreateMemeActivity extends Activity {
             MemeAnnotation annotation = mCurrentMeme.getAnnotations().get(i);
             annotation.setTitle(editText.getText().toString());
         }
-
         MemeDataSource dataSource = new MemeDataSource(this);
+        if (mCurrentMeme.getId()!= -1){
+            dataSource.update(mCurrentMeme);
+        }else{
+            dataSource.create(mCurrentMeme);
+        }
+
         dataSource.create(mCurrentMeme);
     }
 }
