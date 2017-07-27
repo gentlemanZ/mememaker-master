@@ -182,6 +182,6 @@ public class CreateMemeActivity extends Activity {
             dataSource.create(mCurrentMeme);
         }
 
-        dataSource.create(mCurrentMeme);
+        //dataSource.create(mCurrentMeme);
     }
 }

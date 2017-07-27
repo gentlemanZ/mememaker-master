@@ -89,6 +89,7 @@ public class MemeDataSource {
                             getStringFromColumnName(cursor, MemeSQLiteHelper.COLUMN_ANNOTATION_TITLE),
                             getIntFromColumnName(cursor, MemeSQLiteHelper.COLUMN_ANNOTATION_X),
                             getIntFromColumnName(cursor,MemeSQLiteHelper.COLUMN_ANNOTATION_Y));
+                    annotations.add(annotation);
                 }while(cursor.moveToNext());
             }
             meme.setAnnotations(annotations);
